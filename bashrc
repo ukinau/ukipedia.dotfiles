@@ -1,4 +1,3 @@
-export DOTPATH=/Users/ukinau/.ukipedia
 export PATH=$PATH:$DOTPATH/bin
 export ANSIBLE_NOCOWS=yes
 if [ -z $TMUX ]; then
