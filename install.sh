@@ -1,4 +1,4 @@
 echo "create symbolic link"
-ln -s bashrc $HOME/.bashrc
-ln -s tmux.conf $HOME/.tmux.conf 
-ln -s vimrc $HOME/.vimrc
+ln -s `pwd`/bashrc $HOME/.bashrc
+ln -s `pwd`/tmux.conf $HOME/.tmux.conf
+ln -s `pwd`/vimrc $HOME/.vimrc
