@@ -1,10 +1,12 @@
+set listchars=tab:>-,trail:■,extends:>,precedes:<,nbsp:%
 autocmd BufNewFile,BufRead *.c e ++enc=utf8
 set number
-set tabstop=2
-set shiftwidth=2
-set expandtab
+set tabstop=2 " Amount when you try to insert tab with just pushing tab key
+set shiftwidth=2 " Amount when you try to insert tab with vim command like >
+
+set expandtab " Replace tab with space
 set autoindent
-set nocompatible
+
 syntax on
 filetype on
 filetype indent on
@@ -12,13 +14,10 @@ filetype plugin on
 
 set hlsearch
 set cursorline
+hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+hi CursorLineNr term=bold   cterm=NONE ctermfg=228 ctermbg=NONE
 
-let Tlist_Ctags_Cmd = "/opt/local/bin/ctags"
-let Tlist_Show_One_File = 1    "現在表示中のファイルのみのタグしか表示しない
-let Tlist_Use_Right_Window = 1  "右側にtag listのウインドうを表示する
-let Tlist_Exit_OnlyWindow = 1   "taglistのウインドウだけならVimを閉じる
 nnoremap <C-d> :NERDTree<CR>
-nnoremap <C-l> :TlistToggle<CR>
 
 inoremap <C-h>  <Left>
 inoremap <C-j>  <Down>
@@ -32,56 +31,87 @@ inoremap {} {}<Left>
 inoremap "" ""<Left>
 inoremap '' ''<Left>
 inoremap <> <><Left>
-"----------------------------------------------------
+
+"-------------------------------------------------
 "   neobundle
-"   "
-"   -------------------------------------------------
-"
-set nocompatible               " Be iMproved
+"-------------------------------------------------
+  ";Note: Skip initialization for vim-tiny or vim-small.
+  if 0 | endif
 
-if has('vim_starting')
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
+ 
+  ";Required:
   set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+ 
+  ";Required:
+  call neobundle#begin(expand('~/.vim/bundle/'))
+ 
+    NeoBundleFetch 'Shougo/neobundle.vim'
+    NeoBundle 'scrooloose/nerdtree'
+    NeoBundle "scrooloose/syntastic"
+  
+    NeoBundle 'altercation/vim-colors-solarized'
+  
+    NeoBundleLazy 'fatih/vim-go', {
+                \ 'autoload' : { 'filetypes' : 'go'  }
+                \ }
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+  call neobundle#end()
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+ ";Required:
+ filetype plugin indent on
 
-" Recommended to install
-" " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f
-" your_machines_makefile
-"
-NeoBundle 'Shougo/vimproc', {
-        \ 'build' : {
-                \ 'windows' : 'make -f make_mingw32.mak',
-                \ 'cygwin' : 'make -f make_cygwin.mak',
-                \ 'mac' : 'make -f make_mac.mak',
-                \ 'unix' : 'make -f make_unix.mak',
-        \ },
-        \ }
+ " If there are uninstalled bundles found on startup,
+ " this will conveniently prompt you to install them.
+ NeoBundleCheck
 
+"-------------------------------------------------
+"  end(neobundle)
+"-------------------------------------------------
 
-filetype plugin indent on     " Required!
+"-------------------------------------------------
+"  color-scheme
+"-------------------------------------------------
+  set background=dark    " we can choose dark or light
+  colorscheme solarized
+"-------------------------------------------------
+"  end(color-scheme)
+"-------------------------------------------------
 
+"-------------------------------------------------
+"  Golang(dep: vim-go)
+"-------------------------------------------------
+  autocmd filetype go match goErr /\<err\>/
+  autocmd filetype go highlight goErr cterm=bold ctermfg=Red
+  let g:go_highlight_functions = 1
+  let g:go_highlight_methods = 1
+  let g:go_highlight_structs = 1
+"-------------------------------------------------
+"  end(Golang)
+"-------------------------------------------------
 
-" Brief help
-" " :NeoBundleList          - list configured bundles
-" " :NeoBundleInstall(!)    - install(update) bundles
-" " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused
-" bundles
-"
-" " Installation check.
-"
-NeoBundleCheck
+function! NERDTreeQuit()
+  redir => buffersoutput
+  silent buffers
+  redir END
+"                     1BufNo  2Mods.     3File           4LineNo
+  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
+  let windowfound = 0
 
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle "vim-scripts/taglist.vim"
-NeoBundle "scrooloose/syntastic"
-NeoBundle 'altercation/vim-colors-solarized'
+  for bline in split(buffersoutput, "\n")
+    let m = matchlist(bline, pattern)
 
-call neobundle#end()
+    if (len(m) > 0)
+      if (m[2] =~ '..a..')
+        let windowfound = 1
+      endif
+    endif
+  endfor
 
-syntax enable
-set background=dark    " we can choose dark or light
-colorscheme solarized
+  if (!windowfound)
+    quitall
+  endif
+endfunction
+autocmd WinEnter * call NERDTreeQuit()
