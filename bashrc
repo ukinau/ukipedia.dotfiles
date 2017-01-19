@@ -1,3 +1,7 @@
+source ~/ukipedia.dotfiles/git-completion.bash
+GIT_PS1_SHOWDIRTYSTATE=true
+export PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
+
 export PATH=$PATH:$DOTPATH/bin
 export ANSIBLE_NOCOWS=yes
 if [ -z $TMUX ]; then
