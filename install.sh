@@ -34,5 +34,13 @@ else
   rm tmp_neobundlevim_install.sh
 fi
 
+echo '  - bash-completion'
+if test -f $(brew --prefix)/etc/bash_completion; then
+  echo '   - already installed'
+else
+  brew install bash-completion
+  brew tap homebrew/completions
+fi
+
 echo -e $'\e[31m*** Notify for user action ***\e[m'
 echo $'\e[33m1. Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)\e[m'
