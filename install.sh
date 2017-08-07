@@ -24,12 +24,12 @@ echo '  - tmux 2.3'
 if test $(which tmux1) -e ''; then
   sh tmux-install.sh
 else
-  echo '   - already installed'
+  print_green '   - already installed'
 fi
 
 echo '  - NeoBundleVIM'
 if test -d ~/.vim/bundle/neobundle.vim; then
-  echo '   - already installed'
+  print_green '   - already installed'
 else
   curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > tmp_neobundlevim_install.sh
   sh tmp_neobundlevim_install.sh
@@ -41,5 +41,5 @@ brew_install bash-completion "brew tap homebrew/eompletions"
 brew_install tig
 brew_install golang
 
-echo -e $'\e[31m*** Notify for user action ***\e[m'
-echo $'\e[33m1. Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)\e[m'
+print_red '*** Notify for user action ***'
+print_light_red ' - Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)'
