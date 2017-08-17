@@ -27,13 +27,29 @@ create_symbolic () {
 }
 
 brew_install () {
-  PKG=$1
-  AFTER=$2
+  _brew_install RAW $1 $2
+}
+
+brew_cask_install () {
+  _brew_install CASK $1 $2
+}
+
+_brew_install () {
+  RAW_OR_CASK=$1
+  PKG=$2
+  AFTER=$3
+  if test $RAW_OR_CASK == "RAW"; then
+    LIST_CMD="list"
+    INSTALL_CMD="install"
+  else
+    LIST_CMD="cask list"
+    INSTALL_CMD="cask install"
+  fi
   echo "  - $PKG"
-  if test $(brew list $PKG > /dev/null 2>&1; echo $?) -ne 1; then
+  if test $(brew $LIST_CMD $PKG > /dev/null 2>&1; echo $?) -ne 1; then
     print_green '   - already installed'
   else
-    brew install $PKG
+    brew $INSTALL_CMD $PKG
     if test $AFTER; then
       echo "   - execute after script"
       echo "    - $AFTER"

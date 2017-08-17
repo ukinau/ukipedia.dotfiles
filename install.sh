@@ -40,6 +40,8 @@ brew_install reattach-to-user-namespace
 brew_install bash-completion "brew tap homebrew/eompletions"
 brew_install tig
 brew_install golang
+brew_cask_install virtualbox
+brew_cask_install vagrant
 
 print_red '*** Notify for user action ***'
 print_light_red ' - Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)'
