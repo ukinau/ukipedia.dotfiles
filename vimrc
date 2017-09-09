@@ -51,6 +51,8 @@ inoremap <> <><Left>
     NeoBundleFetch 'Shougo/neobundle.vim'
     NeoBundle 'scrooloose/nerdtree'
     NeoBundle "scrooloose/syntastic"
+    let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+
   
     NeoBundle 'altercation/vim-colors-solarized'
   
