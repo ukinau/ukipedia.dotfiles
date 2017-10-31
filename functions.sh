@@ -1,3 +1,8 @@
+section(){
+  SECTION_NAME=$1
+  echo "*** $SECTION_NAME ***"
+}
+
 print_green () {
   echo -e "\033[0;32m $@ \033[0m"
 }
