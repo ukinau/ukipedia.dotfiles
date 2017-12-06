@@ -6,7 +6,7 @@ REPO_PATH=$HOME/ukipedia.dotfiles
 
 section 'cp etc/lib to /etc/lib'
 {
-  cp -r etc/lib /etc; true
+  sudo cp -r etc/lib /etc; true
 }
 
 section 'Create bashrc file'
@@ -33,13 +33,21 @@ section 'mkdir -p $HOME/.tmux/log'
 
 section 'Install thirdparty'
 {
+  #install pip
+  echo '  - pip'
+  if which pip 1>/dev/null 2>&1; then
+    print_green '   - already installed'
+  else
+    curl -O https://bootstrap.pypa.io/get-pip.py
+    sudo python get-pip.py
+  fi
   #brew install tmux <- my tmux.conf is not working for later than 2.4
   brew_install openssl
   echo '  - tmux 2.3'
-  if test $(which tmux1) -e ''; then
-    sh tmux-install.sh
-  else
+  if which tmux 1>/dev/null 2>&1; then
     print_green '   - already installed'
+  else
+    sh tmux-install.sh
   fi
 
   echo '  - NeoBundleVIM'
