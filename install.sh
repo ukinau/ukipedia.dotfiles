@@ -33,36 +33,52 @@ section 'mkdir -p $HOME/.tmux/log'
 
 section 'Install thirdparty'
 {
-  #install pip
-  echo '  - pip'
-  if which pip 1>/dev/null 2>&1; then
-    print_green '   - already installed'
-  else
-    curl -O https://bootstrap.pypa.io/get-pip.py
-    sudo python get-pip.py
-  fi
+  section2nd 'brew'
+  {
+    if command_existing brew; then
+      print_green '   - already installed'
+    else
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null
+    fi
+  }
+
+  section2nd 'pip'
+  {
+    if command_existing pip; then
+      print_green '   - already installed'
+    else
+      curl -O https://bootstrap.pypa.io/get-pip.py
+      sudo python get-pip.py
+    fi
+  }
+
   #brew install tmux <- my tmux.conf is not working for later than 2.4
   brew_install openssl
-  echo '  - tmux 2.3'
-  if which tmux 1>/dev/null 2>&1; then
-    print_green '   - already installed'
-  else
-    sh tmux-install.sh
-  fi
+  section2nd 'tmux 2.3'
+  {
+    if command_existing tmux; then
+      print_green '   - already installed'
+    else
+      sh tmux-install.sh
+    fi
+  }
 
-  echo '  - NeoBundleVIM'
-  if test -d ~/.vim/bundle/neobundle.vim; then
-    print_green '   - already installed'
-  else
-    curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > tmp_neobundlevim_install.sh
-    sh tmp_neobundlevim_install.sh
-    rm tmp_neobundlevim_install.sh
-  fi
+  section2nd 'NeoBundleVIM'
+  {
+    if test -d ~/.vim/bundle/neobundle.vim; then
+      print_green '   - already installed'
+    else
+      curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > tmp_neobundlevim_install.sh
+      sh tmp_neobundlevim_install.sh
+      rm tmp_neobundlevim_install.sh
+    fi
+  }
 
   brew_install reattach-to-user-namespace
   brew_install bash-completion "brew tap homebrew/eompletions"
   brew_install tig
   brew_install golang
+  brew_install git-review
   brew_cask_install virtualbox
   brew_cask_install vagrant
 }

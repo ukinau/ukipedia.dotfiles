@@ -3,6 +3,11 @@ section(){
   echo "*** $SECTION_NAME ***"
 }
 
+section2nd(){
+  SECTION_NAME=$1
+  echo "  - $SECTION_NAME"
+}
+
 print_green () {
   echo -e "\033[0;32m $@ \033[0m"
 }
@@ -37,6 +42,10 @@ brew_install () {
 
 brew_cask_install () {
   _brew_install CASK $1 $2
+}
+
+command_existing () {
+  which $1 1>/dev/null 2>&1
 }
 
 _brew_install () {
