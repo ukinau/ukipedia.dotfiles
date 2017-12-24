@@ -18,6 +18,7 @@ hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 hi CursorLineNr term=bold   cterm=NONE ctermfg=228 ctermbg=NONE
 
 nnoremap <C-d> :NERDTree<CR>
+nnoremap <C-t> :TagbarToggle<CR>
 
 inoremap <C-h>  <Left>
 inoremap <C-j>  <Down>
@@ -60,6 +61,9 @@ inoremap <> <><Left>
                 \ 'autoload' : { 'filetypes' : 'go'  }
                 \ }
 
+    NeoBundle 'majutsushi/tagbar'
+    let g:tagbar_autoshowtag = 1
+    let g:tagbar_width = 30
   call neobundle#end()
 
  ";Required:
