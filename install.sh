@@ -79,6 +79,7 @@ section 'Install thirdparty'
   brew_install tig
   brew_install golang
   brew_install git-review
+  brew_install ctags
   brew_cask_install virtualbox
   brew_cask_install vagrant
 }
