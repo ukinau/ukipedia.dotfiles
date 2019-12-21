@@ -1,8 +1,8 @@
 set listchars=tab:>-,trail:■,extends:>,precedes:<,nbsp:%
 autocmd BufNewFile,BufRead *.c e ++enc=utf8
 set number
-set tabstop=2 " Amount when you try to insert tab with just pushing tab key
-set shiftwidth=2 " Amount when you try to insert tab with vim command like >
+set tabstop=8 " Amount when you try to insert tab with just pushing tab key
+set shiftwidth=8 " Amount when you try to insert tab with vim command like >
 
 set expandtab " Replace tab with space
 set autoindent
@@ -52,7 +52,7 @@ inoremap <> <><Left>
     NeoBundleFetch 'Shougo/neobundle.vim'
     NeoBundle 'scrooloose/nerdtree'
     NeoBundle "scrooloose/syntastic"
-    let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+    let g:syntastic_python_checkers = ['flake8']
 
   
     NeoBundle 'altercation/vim-colors-solarized'
@@ -135,3 +135,4 @@ augroup BinaryXXD
   autocmd BufWritePost * if &binary | silent %!xxd -g 1
   autocmd BufWritePost * set nomod | endif
 augroup END
+let g:go_version_warning = 0
