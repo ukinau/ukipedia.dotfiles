@@ -1,7 +1,7 @@
 set -e
 
 REPO_PATH=$HOME/ukipedia.dotfiles
-. $REPO_PATH/functions.sh
+. $REPO_PATH/common/functions.sh
 
 
 section 'cp etc/lib to /etc/lib'
@@ -49,7 +49,7 @@ section 'Install thirdparty'
     else
       curl -O https://bootstrap.pypa.io/get-pip.py
       mv get-pip.py thirdparty/python/
-      sudo python get-pip.py
+      sudo python thirdparty/python/get-pip.py
     fi
   }
 
@@ -73,9 +73,11 @@ section 'Install thirdparty'
   brew_install golang
   brew_install git-review
   brew_install ctags
+  brew_install pyenv
+  brew_install pyenv-virtualenv
   #brew_cask_install virtualbox
   #brew_cask_install vagrant
 }
 
-print_red '*** Notify for user action ***'
-print_light_red ' - Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)'
+#print_red '*** Notify for user action ***'
+#print_light_red ' - Please import Iterm2 color (thirdparty/DarkSolarized.itermcolors)'

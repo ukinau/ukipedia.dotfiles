@@ -1,0 +1,13 @@
+#!/bin/bash
+source $DOTPATH/common/functions.sh
+if ! test -d "$HOME/materials/temp"; then
+    mkdir $HOME/materials
+    mkdir $HOME/materials/temp
+fi
+
+mv $@ $HOME/materials/temp/
+if test $? == 0; then
+    print_green "Move $@ to $HOME/materials/temp/"
+else
+    print_red "Failed to move $@ to $HOME/materials/temp/"
+fi
