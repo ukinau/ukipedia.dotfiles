@@ -18,8 +18,8 @@ section 'Create bashrc file'
 section 'Create symbolic link of some dotfiles'
 {
   create_symbolic $REPO_PATH/bashrc_complied $HOME/.bashrc
-  create_symbolic $REPO_PATH/tmux.conf $HOME/.tmux.conf
-  create_symbolic $REPO_PATH/vimrc $HOME/.vimrc
+  create_symbolic $REPO_PATH/thirdparty/tmux/tmux.conf $HOME/.tmux.conf
+  create_symbolic $REPO_PATH/thirdparty/vim/vimrc $HOME/.vimrc
 }
 
 section 'mkdir -p $HOME/.tmux/log'
@@ -48,20 +48,13 @@ section 'Install thirdparty'
       print_green '   - already installed'
     else
       curl -O https://bootstrap.pypa.io/get-pip.py
+      mv get-pip.py thirdparty/python/
       sudo python get-pip.py
     fi
   }
 
-  #brew install tmux <- my tmux.conf is not working for later than 2.4
   brew_install openssl
-  section2nd 'tmux 2.3'
-  {
-    if command_existing tmux; then
-      print_green '   - already installed'
-    else
-      sh tmux-install.sh
-    fi
-  }
+  brew_install tmux
 
   section2nd 'NeoBundleVIM'
   {
@@ -80,8 +73,8 @@ section 'Install thirdparty'
   brew_install golang
   brew_install git-review
   brew_install ctags
-  brew_cask_install virtualbox
-  brew_cask_install vagrant
+  #brew_cask_install virtualbox
+  #brew_cask_install vagrant
 }
 
 print_red '*** Notify for user action ***'
